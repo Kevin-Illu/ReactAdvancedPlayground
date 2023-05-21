@@ -1,11 +1,13 @@
 import { LazyExoticComponent, lazy } from "react";
+import { NoLazy } from "../ModuleLazyLoad/pages/NoLazy";
 // import { FirstPage, SecondPage, ThirdPage } from "../ModuleLazyLoad/pages";
 
-const FirstPage = lazy(() => import("../ModuleLazyLoad/pages/FirstPage"));
-const SecondPage = lazy(() => import("../ModuleLazyLoad/pages/SecondPage"));
-const ThirdPage = lazy(() => import("../ModuleLazyLoad/pages/ThirdPage"));
+const LazyLayout = lazy(() => import("../ModuleLazyLoad/layout/LazyLayout"));
+// const FirstPage = lazy(() => import("../ModuleLazyLoad/pages/FirstPage"));
+// const SecondPage = lazy(() => import("../ModuleLazyLoad/pages/SecondPage"));
+// const ThirdPage = lazy(() => import("../ModuleLazyLoad/pages/ThirdPage"));
 
-type JSXComponent = () => JSX.Element
+type JSXComponent = () => JSX.Element;
 
 interface Route {
   to: string;
@@ -16,21 +18,15 @@ interface Route {
 
 export const routes: Route[] = [
   {
-    to: "/FirstPageComposed",
-    path: "FirstPageComposed",
-    Component: FirstPage,
-    nameLink: "First page",
+    to: "/lazyload/",
+    path: "/lazyload/*",
+    Component: LazyLayout,
+    nameLink: "DashBoad",
   },
   {
-    to: "/SecondPageComposed",
-    path: "SecondPageComposed",
-    Component: SecondPage,
-    nameLink: "Second page",
-  },
-  {
-    to: "/ThirdPageComposed",
-    path: "ThirdPageComposed",
-    Component: ThirdPage,
-    nameLink: "Third page",
+    to: "/noLazyLoad",
+    path: "noLazyLoad",
+    Component: NoLazy,
+    nameLink: "noLazyLoad",
   },
 ];
