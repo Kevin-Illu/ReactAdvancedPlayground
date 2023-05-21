@@ -1,22 +1,12 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { NavLink } from "react-router-dom";
-
-const withContainer = (WrappedComponent) => {
-  return (props) => {
-    return (
-      <div className="container">
-        <WrappedComponent {...props} />
-      </div>
-    );
-  };
-};
-const HomePageContent = () => <h1>Home</h1>;
-const UsersPageContent = () => <h1>Users</h1>;
-const AboutPageContent = () => <h1>About</h1>;
-
-const HomePage = withContainer(HomePageContent);
-const UsersPage = withContainer(UsersPageContent);
-const AboutPage = withContainer(AboutPageContent);
+import { Suspense } from "react";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  NavLink,
+} from "react-router-dom";
+import { routes } from "./routes";
 
 export const Navigation = () => {
   const navLinkIsActive = ({ isActive }: { isActive: boolean }) => {
@@ -24,39 +14,32 @@ export const Navigation = () => {
   };
 
   return (
-    <BrowserRouter>
-      <div>
-        <nav className="nav">
-          <div className="nav-root container">
-            <img src="/vite.svg" className="logo" alt="Vite logo" />
-            <ul>
-              <li>
-                <NavLink to="/home" className={navLinkIsActive}>
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/about" className={navLinkIsActive}>
-                  About
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/users" className={navLinkIsActive}>
-                  Users
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-        </nav>
+    <Suspense>
+      <BrowserRouter>
+        <div>
+          <nav className="nav">
+            <div className="nav-root container">
+              <img src="/vite.svg" className="logo" alt="Vite logo" />
+              <ul>
+                {routes.map(({ to, nameLink }) => (
+                  <li key={nameLink}>
+                    <NavLink to={to} className={navLinkIsActive}>
+                      {nameLink}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </nav>
 
-        <Routes>
-          <Route path="about" element={<AboutPage />} />
-          <Route path="users" element={<UsersPage />} />
-          <Route path="home" element={<HomePage />} />
-
-          <Route path="/*" element={<Navigate to="/home" replace />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+          <Routes>
+            {routes.map(({ path, Component }) => (
+              <Route key={path} path={path} element={<Component />} />
+            ))}
+            <Route path="/*" element={<Navigate to={routes[0].to} replace />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </Suspense>
   );
 };
