@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { ShoppingPage } from "../pages/ShoppingPage";
 
 const withContainer = (WrappedComponent) => {
   return (props) => {
@@ -32,7 +33,7 @@ export const Navigation = () => {
             <ul>
               <li>
                 <NavLink to="/home" className={navLinkIsActive}>
-                  Home
+                  Shop
                 </NavLink>
               </li>
               <li>
@@ -52,7 +53,7 @@ export const Navigation = () => {
         <Routes>
           <Route path="about" element={<AboutPage />} />
           <Route path="users" element={<UsersPage />} />
-          <Route path="home" element={<HomePage />} />
+          <Route path="home" element={<ShoppingPage />} />
 
           <Route path="/*" element={<Navigate to="/home" replace />} />
         </Routes>
