@@ -1,10 +1,10 @@
 import { useContext } from "react";
 
-import styles from "../styles/styles.module.css";
 import noImage from "../assets/no-image.jpg";
 import { ProductContext } from "./ProductCard";
+import { ImageProps } from "../interfaces/interfaces";
 
-export const ProductImage = ({ img = "" }) => {
+export const ProductImage = ({ img = "", className, styles }: ImageProps) => {
   const { product } = useContext(ProductContext);
   let imgToShow;
 
@@ -18,8 +18,9 @@ export const ProductImage = ({ img = "" }) => {
 
   return (
     <img
-      className={styles.productImg}
-      src={img ? img : noImage}
+      className={`${className} rounded-lg`}
+      style={styles}
+      src={imgToShow}
       alt={"product image"}
     />
   );

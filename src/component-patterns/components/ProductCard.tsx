@@ -1,6 +1,5 @@
 import { createContext } from "react";
 
-import styles from "../styles/styles.module.css";
 import { useProduct } from "../../hooks/useProduct";
 import {
   ProductContextProps,
@@ -13,8 +12,15 @@ import { ProductButtons } from "./ProductButtons";
 export const ProductContext = createContext({} as ProductContextProps);
 const { Provider } = ProductContext;
 
-export const ProductCard = ({ children, product }: ProductCardProps) => {
-  const { counter, increaseBy } = useProduct(0);
+export const ProductCard = ({
+  children,
+  product,
+  value,
+  onChange,
+  className,
+  styles,
+}: ProductCardProps) => {
+  const { counter, increaseBy } = useProduct({ onChange, product, value });
 
   return (
     <Provider
@@ -24,7 +30,12 @@ export const ProductCard = ({ children, product }: ProductCardProps) => {
         product,
       }}
     >
-      <div className={styles.productCard}>{children}</div>
+      <div
+        className={`${className} p-2 max-w-[16rem] h-fit bg-stone-700 rounded-lg`}
+        style={styles}
+      >
+        {children}
+      </div>
     </Provider>
   );
 };
