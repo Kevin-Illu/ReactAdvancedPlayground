@@ -16,21 +16,15 @@ export const useShoppingCart = () => {
     product: Product;
   }) => {
     setShoppingCart((prevShoppingCart) => {
-      const productInCart: ProductInCart = prevShoppingCart[product.id] || {
-        ...product,
-        count: 0,
-      };
-
-      if (Math.max(productInCart.count + count, 0) > 0) {
-        productInCart.count += count;
-        return {
-          ...prevShoppingCart,
-          [product.id]: productInCart,
-        };
+      if (count == 0) {
+        const { [product.id]: deletedItem, ...rest } = prevShoppingCart;
+        return rest;
       }
 
-      const { [product.id]: deletedItem, ...rest } = prevShoppingCart;
-      return rest;
+      return {
+        ...prevShoppingCart,
+        [product.id]: { ...product, count },
+      };
     });
   };
 
