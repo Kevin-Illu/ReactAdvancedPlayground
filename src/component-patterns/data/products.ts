@@ -12,4 +12,4 @@ const product2 = {
   img: "./coffee-mug2.png",
 };
 
-export const products: Product[] = [product, product2];
+export const products: Product[] = [product];

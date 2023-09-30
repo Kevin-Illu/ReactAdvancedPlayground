@@ -19,8 +19,15 @@ export const ProductCard = ({
   onChange,
   className,
   styles,
+  initialValues,
 }: ProductCardProps) => {
-  const { counter, increaseBy } = useProduct({ onChange, product, value });
+  const { counter, increaseBy, isMaxCountReached, reset } =
+    useProduct({
+      onChange,
+      product,
+      value,
+      initialValues,
+    });
 
   return (
     <Provider
@@ -28,13 +35,21 @@ export const ProductCard = ({
         counter,
         increaseBy,
         product,
+        maxCount: initialValues?.maxCount,
       }}
     >
       <div
         className={`${className} p-2 max-w-[16rem] h-fit bg-stone-700 rounded-lg`}
         style={styles}
       >
-        {children}
+        {children({
+          count: counter,
+          isMaxCountReached,
+          maxCount: initialValues?.maxCount || undefined,
+          product,
+          increaseBy: increaseBy,
+          reset,
+        })}
       </div>
     </Provider>
   );

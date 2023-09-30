@@ -1,10 +1,14 @@
-import { useContext } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import { ProductContext } from "./ProductCard";
 import { ButtonsProps } from "../interfaces/interfaces";
 
 export const ProductButtons = ({ className, styles }: ButtonsProps) => {
-  const { counter, increaseBy } = useContext(ProductContext);
+  const { counter, increaseBy, maxCount } = useContext(ProductContext);
+  const isMaxReached = useCallback(
+    () => !!maxCount && counter >= maxCount,
+    [counter, maxCount]
+  );
 
   return (
     <div
@@ -17,7 +21,11 @@ export const ProductButtons = ({ className, styles }: ButtonsProps) => {
       <div className="bg-stone-950 w-full h-full grid place-items-center">
         <span className="p-none m-none">{counter}</span>
       </div>
-      <button className="rounded-l-none" onClick={() => increaseBy(+1)}>
+      <button
+        className="rounded-l-none disabled:bg-gray-500 disabled:text-black disabled:opacity-40"
+        onClick={() => increaseBy(+1)}
+        disabled={isMaxReached()}
+      >
         <span>+</span>
       </button>
     </div>
